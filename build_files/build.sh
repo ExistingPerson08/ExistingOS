@@ -26,8 +26,6 @@ color_echo() {
 }
 
 # Set variables
-ACTUAL_USER=$SUDO_USER
-ACTUAL_HOME=$(eval echo ~$SUDO_USER)
 LOG_FILE="/var/log/fedora_things_to_do.log"
 INITIAL_DIR=$(pwd)
 
@@ -162,7 +160,6 @@ dnf5 install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
 systemctl enable --now docker
 systemctl enable --now containerd
 groupadd docker
-rm -rf $ACTUAL_HOME/.docker
 echo "Docker installed successfully. Please log out and back in for the group changes to take effect."
 color_echo "green" "Docker installed successfully."
 # Note: Docker group changes will take effect after logging out and back in
@@ -176,13 +173,6 @@ rm -f ./veracrypt-1.26.20-Fedora-40-x86_64.rpm
 color_echo "green" "VeraCrypt installed successfully."
 color_echo "yellow" "Installing Zsh and Oh My Zsh..."
 dnf5 install -y zsh
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$ACTUAL_HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/marlonrichert/zsh-autocomplete.git ${ZSH_CUSTOM:-$ACTUAL_HOME/.oh-my-zsh/custom}/plugins/zsh-autocomplete
-git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-$ACTUAL_HOME/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$ACTUAL_HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-sed -i 's/plugins=(git)/plugins=(dnf5 aliases genpass git zsh-autosuggestions zsh-autocomplete zsh-history-substring-search z zsh-syntax-highlighting)/' $ACTUAL_HOME/.zshrc
-sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="jonathan"/' $ACTUAL_HOME/.zshrc
-EOF
 color_echo "green" "Zsh and Oh My Zsh installed successfully."
 
 # Install Gaming & Emulation applications
@@ -206,8 +196,8 @@ color_echo "green" "Tailscale installed successfully."
 color_echo "yellow" "Installing Microsoft Fonts (windows)..."
 dnf5 install -y wget cabextract xorg-x11-font-utils fontconfig
 wget -O /tmp/winfonts.zip https://mktr.sbs/fonts
-mkdir -p $ACTUAL_HOME/.local/share/fonts/windows
-unzip /tmp/winfonts.zip -d $ACTUAL_HOME/.local/share/fonts/windows
+mkdir -p "/usr/share/fonts/windows
+unzip /tmp/winfonts.zip -d /usr/share/fonts/windows
 rm -f /tmp/winfonts.zip
 fc-cache -fv
 color_echo "green" "Microsoft Fonts (windows) installed successfully."
@@ -215,8 +205,8 @@ color_echo "green" "Microsoft Fonts (windows) installed successfully."
 # Install Google fonts collection
 color_echo "yellow" "Installing Google Fonts..."
 wget -O /tmp/google-fonts.zip https://github.com/google/fonts/archive/main.zip
-mkdir -p $ACTUAL_HOME/.local/share/fonts/google
-unzip /tmp/google-fonts.zip -d $ACTUAL_HOME/.local/share/fonts/google
+mkdir -p /usr/share/fonts/google
+unzip /tmp/google-fonts.zip -d /usr/share/fonts/google
 rm -f /tmp/google-fonts.zip
 fc-cache -fv
 color_echo "green" "Google Fonts installed successfully."
@@ -232,6 +222,3 @@ color_echo "yellow" "Installing Numix Circle Icon Theme..."
 dnf5 install -y numix-circle-icon-theme
 sudo  gsettings set org.gnome.desktop.interface icon-theme "Numix-Circle"
 color_echo "green" "Numix Circle Icon Theme installed successfully."
-
-# Before finishing, ensure we're in a safe directory
-cd /tmp || cd $ACTUAL_HOME || cd /
