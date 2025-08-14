@@ -6,7 +6,7 @@ set -ouex pipefail
 
 rm -f /root/.bash_logout /root/.bash_profile /root/.bashrc
 
-dnf5 install -y @workstation-product-environment --exclude=rootfiles
+dnf5 install --skip-unavailable  -y @workstation-product-environment --exclude=rootfiles
 
 systemctl set-default graphical.target
 systemctl enable gdm
@@ -79,7 +79,7 @@ dnf5 upgrade -y
 # System Configuration
 # Replace Fedora Flatpak Repo with Flathub for better package management and apps stability
 color_echo "yellow" "Replacing Fedora Flatpak Repo with Flathub..."
-dnf5 install -y flatpak
+dnf5 install --skip-unavailable  -y flatpak
 flatpak remote-delete fedora --force || true
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak repair
@@ -87,8 +87,8 @@ flatpak update
 
 # Enable RPM Fusion repositories to access additional software packages and codecs
 color_echo "yellow" "Enabling RPM Fusion repositories..."
-dnf5 install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-dnf5 install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+dnf5 install --skip-unavailable  -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+dnf5 install --skip-unavailable  -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 dnf5 update @core -y
 
 # Install multimedia codecs to enhance multimedia capabilities
@@ -108,18 +108,18 @@ dnf5 swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld -y
 
 # Install virtualization tools to enable virtual machines and containerization
 color_echo "yellow" "Installing virtualization tools..."
-dnf5 install -y @virtualization
+dnf5 install --skip-unavailable  -y @virtualization
 
 
 # App Installation
 # Install essential applications
 color_echo "yellow" "Installing essential applications..."
-dnf5 install -y htop rsync fastfetch unzip unrar git wget curl gnome-tweaks syncthing
+dnf5 install --skip-unavailable  -y htop rsync fastfetch unzip unrar git wget curl gnome-tweaks syncthing
 color_echo "green" "Essential applications installed successfully."
 
 # Install Internet & Communication applications
 color_echo "yellow" "Installing Tor..."
-dnf5 install -y tor
+dnf5 install --skip-unavailable  -y tor
 sleep 5
 systemctl enable --now tor
 flatpak install -y flathub org.torproject.torbrowser-launcher
@@ -146,7 +146,7 @@ enabled=1
 gpgcheck=1
 gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | tee /etc/yum.repos.d/vscode.repo > /dev/null
 dnf5 check-update
-dnf5 install -y code
+dnf5 install --skip-unavailable  -y code
 color_echo "green" "Visual Studio Code installed successfully."
 color_echo "yellow" "Installing Docker..."
 dnf5 remove -y docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-selinux docker-engine-selinux docker-engine --noautoremove
@@ -156,7 +156,7 @@ if command -v dnf4 &>/dev/null; then
 else
   dnf5 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 fi
-dnf5 install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+dnf5 install --skip-unavailable  -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 systemctl enable --now docker
 systemctl enable --now containerd
 groupadd docker
@@ -164,29 +164,29 @@ echo "Docker installed successfully. Please log out and back in for the group ch
 color_echo "green" "Docker installed successfully."
 # Note: Docker group changes will take effect after logging out and back in
 color_echo "yellow" "Installing Podman..."
-dnf5 install -y podman
+dnf5 install --skip-unavailable  -y podman
 color_echo "green" "Podman installed successfully."
 color_echo "yellow" "Installing VeraCrypt..."
 wget https://launchpad.net/veracrypt/trunk/1.26.20/+download/veracrypt-1.26.20-Fedora-40-x86_64.rpm
-dnf5 install -y ./veracrypt-1.26.20-Fedora-40-x86_64.rpm
+dnf5 install --skip-unavailable  -y ./veracrypt-1.26.20-Fedora-40-x86_64.rpm
 rm -f ./veracrypt-1.26.20-Fedora-40-x86_64.rpm
 color_echo "green" "VeraCrypt installed successfully."
 color_echo "yellow" "Installing Zsh and Oh My Zsh..."
-dnf5 install -y zsh
+dnf5 install --skip-unavailable  -y zsh
 color_echo "green" "Zsh and Oh My Zsh installed successfully."
 
 # Install Gaming & Emulation applications
 color_echo "yellow" "Installing Steam..."
-dnf5 install -y steam
+dnf5 install --skip-unavailable  -y steam
 color_echo "green" "Steam installed successfully."
 color_echo "yellow" "Installing Lutris..."
-dnf5 install -y lutris
+dnf5 install --skip-unavailable  -y lutris
 color_echo "green" "Lutris installed successfully."
 
 # Install Remote Networking applications
 color_echo "yellow" "Installing Tailscale..."
 dnf5 config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
-dnf5 install tailscale -y
+dnf5 install --skip-unavailable  tailscale -y
 systemctl enable --now tailscaled
 color_echo "green" "Tailscale installed successfully."
 
@@ -194,7 +194,7 @@ color_echo "green" "Tailscale installed successfully."
 # Customization
 # Install Microsoft Windows fonts (windows)
 color_echo "yellow" "Installing Microsoft Fonts (windows)..."
-dnf5 install -y wget cabextract xorg-x11-font-utils fontconfig
+dnf5 install --skip-unavailable  -y wget cabextract xorg-x11-font-utils fontconfig
 wget -O /tmp/winfonts.zip https://mktr.sbs/fonts
 mkdir -p "/usr/share/fonts/windows
 unzip /tmp/winfonts.zip -d /usr/share/fonts/windows
@@ -213,12 +213,12 @@ color_echo "green" "Google Fonts installed successfully."
 
 # A flat colorful design icon theme for linux desktops
 color_echo "yellow" "Installing Papirus Icon Theme..."
-dnf5 install -y papirus-icon-theme
+dnf5 install --skip-unavailable  -y papirus-icon-theme
 gsettings set org.gnome.desktop.interface icon-theme "Papirus"
 color_echo "green" "Papirus Icon Theme installed successfully."
 
 # A flat colorful design icon theme for linux desktops
 color_echo "yellow" "Installing Numix Circle Icon Theme..."
-dnf5 install -y numix-circle-icon-theme
+dnf5 install --skip-unavailable  -y numix-circle-icon-theme
 gsettings set org.gnome.desktop.interface icon-theme "Numix-Circle"
 color_echo "green" "Numix Circle Icon Theme installed successfully."
