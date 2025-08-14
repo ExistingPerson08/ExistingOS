@@ -54,7 +54,7 @@ handle_error() {
 
 # Function to prompt for reboot
 prompt_reboot() {
-    sudo -u $ACTUAL_USER bash -c 'read -p "It is time to reboot the machine. Would you like to do it now? (y/n): " choice; [[ $choice == [yY] ]]'
+    sudo -u  bash -c 'read -p "It is time to reboot the machine. Would you like to do it now? (y/n): " choice; [[ $choice == [yY] ]]'
     if [ $? -eq 0 ]; then
         color_echo "green" "Rebooting..."
         reboot
@@ -162,7 +162,6 @@ dnf5 install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docke
 systemctl enable --now docker
 systemctl enable --now containerd
 groupadd docker
-usermod -aG docker $ACTUAL_USER
 rm -rf $ACTUAL_HOME/.docker
 echo "Docker installed successfully. Please log out and back in for the group changes to take effect."
 color_echo "green" "Docker installed successfully."
@@ -177,9 +176,9 @@ rm -f ./veracrypt-1.26.20-Fedora-40-x86_64.rpm
 color_echo "green" "VeraCrypt installed successfully."
 color_echo "yellow" "Installing Zsh and Oh My Zsh..."
 dnf5 install -y zsh
-sudo -u $ACTUAL_USER sh -c "RUNZSH=no $(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-chsh -s $(which zsh) $ACTUAL_USER
-sudo -u $ACTUAL_USER bash << EOF
+sudo -u  sh -c "RUNZSH=no $(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+chsh -s $(which zsh) 
+sudo -u  bash << EOF
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$ACTUAL_HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/marlonrichert/zsh-autocomplete.git ${ZSH_CUSTOM:-$ACTUAL_HOME/.oh-my-zsh/custom}/plugins/zsh-autocomplete
 git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-$ACTUAL_HOME/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
@@ -228,13 +227,13 @@ color_echo "green" "Google Fonts installed successfully."
 # A flat colorful design icon theme for linux desktops
 color_echo "yellow" "Installing Papirus Icon Theme..."
 dnf5 install -y papirus-icon-theme
-sudo -u $ACTUAL_USER gsettings set org.gnome.desktop.interface icon-theme "Papirus"
+sudo -u  gsettings set org.gnome.desktop.interface icon-theme "Papirus"
 color_echo "green" "Papirus Icon Theme installed successfully."
 
 # A flat colorful design icon theme for linux desktops
 color_echo "yellow" "Installing Numix Circle Icon Theme..."
 dnf5 install -y numix-circle-icon-theme
-sudo -u $ACTUAL_USER gsettings set org.gnome.desktop.interface icon-theme "Numix-Circle"
+sudo -u  gsettings set org.gnome.desktop.interface icon-theme "Numix-Circle"
 color_echo "green" "Numix Circle Icon Theme installed successfully."
 
 # Before finishing, ensure we're in a safe directory
