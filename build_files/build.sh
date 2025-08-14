@@ -8,8 +8,8 @@ rm -f /root/.bash_logout /root/.bash_profile /root/.bashrc
 
 dnf5 install --skip-unavailable  -y @workstation-product-environment --exclude=rootfiles
 
-systemctl set-default graphical.target
-systemctl enable gdm
+systemctl set-default graphical.target && \
+systemctl enable gdm && \
 systemctl enable NetworkManager
 
 # Funtion to echo colored text
@@ -120,9 +120,6 @@ color_echo "green" "Essential applications installed successfully."
 # Install Internet & Communication applications
 color_echo "yellow" "Installing Tor..."
 dnf5 install --skip-unavailable  -y tor
-sleep 5
-systemctl enable --now tor
-flatpak install -y flathub org.torproject.torbrowser-launcher
 color_echo "green" "Tor installed successfully."
 
 # Install Office Productivity applications
@@ -157,8 +154,6 @@ else
   dnf5 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 fi
 dnf5 install --skip-unavailable  -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-systemctl enable --now docker
-systemctl enable --now containerd
 groupadd docker
 echo "Docker installed successfully. Please log out and back in for the group changes to take effect."
 color_echo "green" "Docker installed successfully."
@@ -187,7 +182,6 @@ color_echo "green" "Lutris installed successfully."
 color_echo "yellow" "Installing Tailscale..."
 dnf5 config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
 dnf5 install --skip-unavailable  tailscale -y
-systemctl enable --now tailscaled
 color_echo "green" "Tailscale installed successfully."
 
 
