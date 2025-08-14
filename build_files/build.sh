@@ -89,13 +89,13 @@ flatpak update
 color_echo "yellow" "Enabling RPM Fusion repositories..."
 dnf5 install --skip-unavailable  -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 dnf5 install --skip-unavailable  -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-dnf5 update @core -y
+dnf5 update @core -y --skip-unavailable
 
 # Install multimedia codecs to enhance multimedia capabilities
 color_echo "yellow" "Installing multimedia codecs..."
 dnf5 swap ffmpeg-free ffmpeg --allowerasing -y
 dnf5 update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin -y
-dnf5 update @sound-and-video -y
+dnf5 update @sound-and-video -y --skip-unavailable
 
 # Install Hardware Accelerated Codecs for Intel integrated GPUs. This improves video playback and encoding performance on systems with Intel graphics.
 color_echo "yellow" "Installing Intel Hardware Accelerated Codecs..."
