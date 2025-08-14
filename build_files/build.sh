@@ -154,7 +154,6 @@ else
   dnf5 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 fi
 dnf5 install --skip-unavailable  -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-groupadd docker
 echo "Docker installed successfully. Please log out and back in for the group changes to take effect."
 color_echo "green" "Docker installed successfully."
 # Note: Docker group changes will take effect after logging out and back in
