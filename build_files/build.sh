@@ -52,7 +52,7 @@ handle_error() {
 
 # Function to prompt for reboot
 prompt_reboot() {
-    sudo  bash -c 'read -p "It is time to reboot the machine. Would you like to do it now? (y/n): " choice; [[ $choice == [yY] ]]'
+    bash -c 'read -p "It is time to reboot the machine. Would you like to do it now? (y/n): " choice; [[ $choice == [yY] ]]'
     if [ $? -eq 0 ]; then
         color_echo "green" "Rebooting..."
         reboot
@@ -82,7 +82,7 @@ color_echo "yellow" "Replacing Fedora Flatpak Repo with Flathub..."
 dnf5 install -y flatpak
 flatpak remote-delete fedora --force || true
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-sudo flatpak repair
+flatpak repair
 flatpak update
 
 # Enable RPM Fusion repositories to access additional software packages and codecs
@@ -138,13 +138,13 @@ color_echo "green" "OnlyOffice installed successfully."
 
 # Install Coding and DevOps applications
 color_echo "yellow" "Installing Visual Studio Code..."
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]
 name=Visual Studio Code
 baseurl=https://packages.microsoft.com/yumrepos/vscode
 enabled=1
 gpgcheck=1
-gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc" | tee /etc/yum.repos.d/vscode.repo > /dev/null
 dnf5 check-update
 dnf5 install -y code
 color_echo "green" "Visual Studio Code installed successfully."
@@ -214,11 +214,11 @@ color_echo "green" "Google Fonts installed successfully."
 # A flat colorful design icon theme for linux desktops
 color_echo "yellow" "Installing Papirus Icon Theme..."
 dnf5 install -y papirus-icon-theme
-sudo  gsettings set org.gnome.desktop.interface icon-theme "Papirus"
+gsettings set org.gnome.desktop.interface icon-theme "Papirus"
 color_echo "green" "Papirus Icon Theme installed successfully."
 
 # A flat colorful design icon theme for linux desktops
 color_echo "yellow" "Installing Numix Circle Icon Theme..."
 dnf5 install -y numix-circle-icon-theme
-sudo  gsettings set org.gnome.desktop.interface icon-theme "Numix-Circle"
+gsettings set org.gnome.desktop.interface icon-theme "Numix-Circle"
 color_echo "green" "Numix Circle Icon Theme installed successfully."
