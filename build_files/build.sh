@@ -6,7 +6,7 @@ set -ouex pipefail
 
 rm -f /root/.bash_logout /root/.bash_profile /root/.bashrc
 
-dnf5 install -y @workstation-product-environment
+dnf5 install -y @workstation-product-environment --exclude=rootfiles
 
 systemctl set-default graphical.target
 systemctl enable gdm
