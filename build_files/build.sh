@@ -185,24 +185,6 @@ color_echo "green" "Tailscale installed successfully."
 
 
 # Customization
-# Install Microsoft Windows fonts (windows)
-color_echo "yellow" "Installing Microsoft Fonts (windows)..."
-dnf5 install --skip-unavailable  -y wget cabextract xorg-x11-font-utils fontconfig
-wget -O /tmp/winfonts.zip https://mktr.sbs/fonts
-mkdir -p "/usr/share/fonts/windows
-unzip /tmp/winfonts.zip -d /usr/share/fonts/windows
-rm -f /tmp/winfonts.zip
-fc-cache -fv
-color_echo "green" "Microsoft Fonts (windows) installed successfully."
-
-# Install Google fonts collection
-color_echo "yellow" "Installing Google Fonts..."
-wget -O /tmp/google-fonts.zip https://github.com/google/fonts/archive/main.zip
-mkdir -p /usr/share/fonts/google
-unzip /tmp/google-fonts.zip -d /usr/share/fonts/google
-rm -f /tmp/google-fonts.zip
-fc-cache -fv
-color_echo "green" "Google Fonts installed successfully."
 
 # A flat colorful design icon theme for linux desktops
 color_echo "yellow" "Installing Papirus Icon Theme..."
